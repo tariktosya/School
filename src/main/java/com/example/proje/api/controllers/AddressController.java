@@ -39,6 +39,19 @@ public class AddressController {
         Thread.sleep(3000);
         return cityService.findCityAndDistrict();
     }
+    @Cacheable("cityDistrik")
+    @GetMapping(value = { "/getCityDistrikCacheable" })
+    public DataResult<List<CityDistrictDto>> getWithCacheable() throws InterruptedException {
+        Thread.sleep(2000);
+        return cityService.findCityAndDistrict();
+    }
+
+    @CacheEvict("cityDistrik")
+    @GetMapping("/cleanCachewithCacheEvitch")
+    public String cleanCachewithCacheEvitch() throws InterruptedException{
+        //Thread.sleep(2000);
+        return "getWithCachePut";
+    }
 
     //@Cacheable(value = "loadCiytByDistrik", key = "#cityName")
     @GetMapping(value = "loadCiytByDistrik/{cityName}")
@@ -54,19 +67,7 @@ public class AddressController {
         //Thread.sleep(3000);
         return ResponseEntity.ok(addressService.addAddress(addressDto));
     }
-    @Cacheable("cityDistrik")
-    @GetMapping(value = { "/getCityDistrikCacheable" })
-    public DataResult<List<CityDistrictDto>> getWithCacheable() throws InterruptedException {
-        Thread.sleep(2000);
-        return cityService.findCityAndDistrict();
-    }
 
-    @CacheEvict("cityDistrik")
-    @GetMapping("/cleanCachewithCacheEvitch")
-    public String cleanCachewithCacheEvitch() throws InterruptedException{
-        //Thread.sleep(2000);
-        return "getWithCachePut";
-    }
 
     //    @PostMapping("/")
 //    public DataResult<List<CityDto>> selectCity(@Valid @RequestParam CityDto cityDto){
