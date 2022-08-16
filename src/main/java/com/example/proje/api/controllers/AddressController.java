@@ -23,8 +23,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/address")
 public class AddressController {
-
-
     public Map<String, String> citiesMap;
     @Autowired
     private AddressService addressService;
@@ -35,37 +33,41 @@ public class AddressController {
     public AddressController() {
     }
 
-    @Cacheable("/")
-    @RequestMapping(value = { "/" }, method = RequestMethod.GET)
-    public DataResult<List<CityDistrictDto>> index() throws InterruptedException {
+    @CachePut("cityDistrik")
+    @RequestMapping(value = { "/getCityDistrikCachePut" }, method = RequestMethod.GET)
+    public DataResult<List<CityDistrictDto>> getWithCachePut() throws InterruptedException {
         Thread.sleep(3000);
         return cityService.findCityAndDistrict();
     }
 
-    @Cacheable(value = "loadCiytByDistrik", key = "#cityName")
-    @ResponseBody
+    //@Cacheable(value = "loadCiytByDistrik", key = "#cityName")
     @GetMapping(value = "loadCiytByDistrik/{cityName}")
     public List<String> loadCityByDistrik(@PathVariable("cityName") String cityName) throws InterruptedException{
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
         System.out.println(addressService.getByCityNameToCityDistrik(cityName));
         return addressService.getByCityNameToCityDistrik(cityName);
     }
 
-    @CachePut(value = "addAddress", key = "#addressDto.addressCityName")
+    //@CachePut(value = "addAddress", key = "#addressDto.addressCityName")
     @PostMapping("/addAddress")
     public ResponseEntity<?> addAddress(@Valid @RequestBody AddressDto addressDto) throws InterruptedException{
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
         return ResponseEntity.ok(addressService.addAddress(addressDto));
     }
-
-    @Cacheable(value = "get", key = "#cityName")
-    @GetMapping("/get/{cityName}")
-    public List<String> getCity(@Valid @RequestParam String cityName) throws InterruptedException{
-        Thread.sleep(3000);
-        System.out.println(addressService.getByCityNameToCityDistrik(cityName));
-        return addressService.getByCityNameToCityDistrik(cityName);
+    @Cacheable("cityDistrik")
+    @GetMapping(value = { "/getCityDistrikCacheable" })
+    public DataResult<List<CityDistrictDto>> getWithCacheable() throws InterruptedException {
+        Thread.sleep(2000);
+        return cityService.findCityAndDistrict();
     }
-    //ss
+
+    @CacheEvict("cityDistrik")
+    @GetMapping("/cleanCachewithCacheEvitch")
+    public String cleanCachewithCacheEvitch() throws InterruptedException{
+        //Thread.sleep(2000);
+        return "getWithCachePut";
+    }
+
     //    @PostMapping("/")
 //    public DataResult<List<CityDto>> selectCity(@Valid @RequestParam CityDto cityDto){
 //
