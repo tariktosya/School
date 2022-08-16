@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class CityDistrictDto {
+public class CityDistrikDto {
 
     private String cityName;
     private List<String> districtName;

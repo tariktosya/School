@@ -4,15 +4,13 @@ import com.example.proje.business.abstracts.AddressService;
 import com.example.proje.business.abstracts.CityService;
 import com.example.proje.core.utilities.results.DataResult;
 import com.example.proje.entities.dtos.AddressDto;
-import com.example.proje.entities.dtos.CityDistrictDto;
-import com.example.proje.entities.dtos.CityDto;
+import com.example.proje.entities.dtos.CityDistrikDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -35,13 +33,13 @@ public class AddressController {
 
     @CachePut("cityDistrik")
     @RequestMapping(value = { "/getCityDistrikCachePut" }, method = RequestMethod.GET)
-    public DataResult<List<CityDistrictDto>> getWithCachePut() throws InterruptedException {
+    public DataResult<List<CityDistrikDto>> getWithCachePut() throws InterruptedException {
         Thread.sleep(3000);
         return cityService.findCityAndDistrict();
     }
     @Cacheable("cityDistrik")
     @GetMapping(value = { "/getCityDistrikCacheable" })
-    public DataResult<List<CityDistrictDto>> getWithCacheable() throws InterruptedException {
+    public DataResult<List<CityDistrikDto>> getWithCacheable() throws InterruptedException {
         Thread.sleep(2000);
         return cityService.findCityAndDistrict();
     }
