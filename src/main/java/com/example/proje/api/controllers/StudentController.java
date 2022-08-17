@@ -1,5 +1,6 @@
 package com.example.proje.api.controllers;
 
+import com.example.proje.service.StudentService;
 import com.example.proje.model.dtos.student.StudentGetWithLessonDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,7 +9,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.proje.business.abstracts.StudentService;
 import com.example.proje.model.dtos.student.StudentGetDto;
 import com.example.proje.utilities.results.DataResult;
 import com.example.proje.utilities.results.ErrorDataResult;

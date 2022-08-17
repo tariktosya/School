@@ -1,4 +1,4 @@
-package com.example.proje.dataAccess;
+package com.example.proje.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.proje.model.entity.Student;
@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface StudentDao extends JpaRepository<Student, Integer> {
+public interface StudentRepository extends JpaRepository<Student, Integer> {
 
     boolean existsById(int id);
 

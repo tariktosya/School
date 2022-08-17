@@ -1,4 +1,4 @@
-package com.example.proje.dataAccess;
+package com.example.proje.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -8,7 +8,7 @@ import com.example.proje.model.response.user.UserListDto;
 
 import java.util.List;
 
-public interface UserDao extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 
     boolean existsByEmail(String email);
 

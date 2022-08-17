@@ -1,11 +1,11 @@
 package com.example.proje.api.controllers;
 
+import com.example.proje.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.proje.business.abstracts.UserService;
 import com.example.proje.model.request.user.UserAddDto;
 import com.example.proje.model.request.user.UserChangePasswordDto;
 import com.example.proje.model.request.user.UserLoginRequestDto;

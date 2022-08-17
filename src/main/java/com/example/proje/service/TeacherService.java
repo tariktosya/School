@@ -1,4 +1,4 @@
-package com.example.proje.business.concretes;
+package com.example.proje.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,8 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.example.proje.business.abstracts.TeacherService;
-import com.example.proje.dataAccess.WebMailDao;
+import com.example.proje.repository.WebMailRepository;
 import com.example.proje.model.dtos.teacher.TeacherGetDto;
 import com.example.proje.utilities.excel.TeacherListExcelHelper;
 import com.example.proje.utilities.pdf.TeacherListPdfHelper;
@@ -17,8 +16,8 @@ import com.example.proje.utilities.results.ErrorResult;
 import com.example.proje.utilities.results.Result;
 import com.example.proje.utilities.results.SuccessDataResult;
 import com.example.proje.utilities.results.SuccessResult;
-import com.example.proje.dataAccess.TeacherDao;
-import com.example.proje.dataAccess.LessonDao;
+import com.example.proje.repository.TeacherRepository;
+import com.example.proje.repository.LessonRepository;
 import com.example.proje.model.entity.Teacher;
 import com.example.proje.model.entity.Lesson;
 import com.example.proje.model.dtos.teacher.TeacherDto;
@@ -28,16 +27,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class TeacherManager implements TeacherService {
+public class TeacherService  {
 
     @Autowired
-    private TeacherDao teacherDao;
+    private TeacherRepository teacherRepository;
 
     @Autowired
-    private LessonDao LessonDao;
+    private LessonRepository LessonRepository;
 
     @Autowired
-    private WebMailDao webMailDao;
+    private WebMailRepository webMailRepository;
 
     private TeacherGetDto convertEntityToDto(Teacher teacher) {
         TeacherGetDto newteacherGetDto = new TeacherGetDto();
@@ -54,31 +53,28 @@ public class TeacherManager implements TeacherService {
         return newteacherGetDto;
     }
 
-    @Override
     public DataResult<List<TeacherGetDto>> getAllTeacher() {
-        return new SuccessDataResult<List<TeacherGetDto>>(teacherDao.findAll()
+        return new SuccessDataResult<List<TeacherGetDto>>(teacherRepository.findAll()
                 .stream()
                 .map(this::convertEntityToDto)
                 .collect(Collectors.toList()), "Bilgiler listelendi.");
     }
 
-    @Override
     public DataResult<List<TeacherGetDto>> getAllPage(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of((pageNo - 1), pageSize);
 
-        if (teacherDao.findAll(pageable).getContent().size() == 0) {
+        if (teacherRepository.findAll(pageable).getContent().size() == 0) {
             return new ErrorDataResult<List<TeacherGetDto>>("Kullanıcı bulunamadı.");
         } else {
-            return new SuccessDataResult<List<TeacherGetDto>>(teacherDao.findAll(pageable).getContent()
+            return new SuccessDataResult<List<TeacherGetDto>>(teacherRepository.findAll(pageable).getContent()
                     .stream()
                     .map(this::convertEntityToDto)
                     .collect(Collectors.toList()), "Bilgiler sayfa numarası ve sırasına göre getiriliyor.");
         }
     }
 
-    @Override
     public Result addTeacher(TeacherDto teacherDto) {
-        if (webMailDao.existsByMail(teacherDto.getMail()) || teacherDao.existsByPhoneNo(teacherDto.getPhoneNo())) {
+        if (webMailRepository.existsByMail(teacherDto.getMail()) || teacherRepository.existsByPhoneNo(teacherDto.getPhoneNo())) {
             return new ErrorResult("Mail adresinizi veya telefon numaranızı kontrol edin!");
         } else {
             Teacher newteacher = new Teacher();
@@ -94,49 +90,48 @@ public class TeacherManager implements TeacherService {
 
             newteacher.setLesson(newLesson);
 
-            LessonDao.save(newteacher.getLesson());
-            teacherDao.save(newteacher);
+            LessonRepository.save(newteacher.getLesson());
+            teacherRepository.save(newteacher);
             return new SuccessResult("Kişi listeye eklendi.");
         }
     }
 
-    @Override
     public Result deleteTeacher(int id) {
-        if (teacherDao.existsById(id)) {
-            teacherDao.deleteById(id);
+        if (teacherRepository.existsById(id)) {
+            teacherRepository.deleteById(id);
             return new SuccessResult("Kişi listeden silindi.");
         } else {
             return new ErrorResult(id + " id numarasına ait kullanıcı bulunamadı.");
         }
     }
 
-    @Override
+
     public DataResult<List<Teacher>> getBySchoolNameContains(String companyName) {
-        if (teacherDao.existsBySchoolName(companyName)) {
+        if (teacherRepository.existsBySchoolName(companyName)) {
             return new ErrorDataResult<List<Teacher>>("Kullanıcı bulunamadı.");
         } else {
-            return new SuccessDataResult<List<Teacher>>(teacherDao.getBySchoolNameContains(companyName), "Data listelendi.");
+            return new SuccessDataResult<List<Teacher>>(teacherRepository.getBySchoolNameContains(companyName), "Data listelendi.");
         }
     }
 
-    @Override
+
     public DataResult<List<Teacher>> getByMailContains(String webMail) {
-        if (teacherDao.existsByMail(webMail)) {
+        if (teacherRepository.existsByMail(webMail)) {
             return new ErrorDataResult<List<Teacher>>("Kullanıcı bulunamadı.");
         } else {
-            return new SuccessDataResult<List<Teacher>>(teacherDao.getByMailContains(webMail), "Data listelendi.");
+            return new SuccessDataResult<List<Teacher>>(teacherRepository.getByMailContains(webMail), "Data listelendi.");
         }
     }
 
-    @Override
+
     public Result updatePhoneNo(int id, String phoneNo) {
-        if (teacherDao.existsById(id)) {
-            if (teacherDao.existsByPhoneNo(phoneNo)) {
+        if (teacherRepository.existsById(id)) {
+            if (teacherRepository.existsByPhoneNo(phoneNo)) {
                 return new ErrorResult("Bu telefon numarası bir başkasına aittir.");
             } else if (phoneNo.length() == 11) {
-                Teacher newteacher = teacherDao.findById(id);
+                Teacher newteacher = teacherRepository.findById(id);
                 newteacher.setPhoneNo(phoneNo);
-                teacherDao.save(newteacher);
+                teacherRepository.save(newteacher);
                 return new SuccessResult("Kişinin telefon numarası güncellendi.");
             } else {
                 return new ErrorResult("Lütfen telefon numaranızın karakter sayısına dikkat ediniz.");
@@ -147,19 +142,19 @@ public class TeacherManager implements TeacherService {
 
     }
 
-    @Override
+
     public Result updatePassword(int id, String password) {
-        if (teacherDao.existsById(id)) {
-            Teacher newteacher = teacherDao.findById(id);
+        if (teacherRepository.existsById(id)) {
+            Teacher newteacher = teacherRepository.findById(id);
             newteacher.setPassword(password);
-            teacherDao.save(newteacher);
+            teacherRepository.save(newteacher);
             return new SuccessResult("Kişinin şifresi güncellendi.");
         } else {
             return new ErrorResult(id + " id numarasına ait bir kullanıcı bulunamadı.");
         }
     }
 
-    @Override
+
     public Result exportToExcelTeacher(HttpServletResponse response) {
         try {
             String fileName = "teacher-list";
@@ -168,7 +163,7 @@ public class TeacherManager implements TeacherService {
             response.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".xlsx");
 
-            TeacherListExcelHelper teacherListExcelHelper = new TeacherListExcelHelper(teacherDao.findAll());
+            TeacherListExcelHelper teacherListExcelHelper = new TeacherListExcelHelper(teacherRepository.findAll());
             teacherListExcelHelper.export(response);
             return new SuccessResult(getAllTeacher().toString());
         } catch (Exception ex) {
@@ -176,7 +171,7 @@ public class TeacherManager implements TeacherService {
         }
     }
 
-    @Override
+
     public Result exportToPdfTeacher(HttpServletResponse response) {
         try {
             String fileName = "Teachers";
@@ -185,7 +180,7 @@ public class TeacherManager implements TeacherService {
             response.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".pdf");
 
-            TeacherListPdfHelper teacherListPdfHelper = new TeacherListPdfHelper(teacherDao.findAll());
+            TeacherListPdfHelper teacherListPdfHelper = new TeacherListPdfHelper(teacherRepository.findAll());
             teacherListPdfHelper.export(response);
             return new SuccessResult(getAllTeacher().toString());
         } catch (Exception ex) {

@@ -1,10 +1,9 @@
-package com.example.proje.business.concretes;
+package com.example.proje.service;
 
-import com.example.proje.business.abstracts.CityService;
 import com.example.proje.utilities.results.DataResult;
 import com.example.proje.utilities.results.SuccessDataResult;
-import com.example.proje.dataAccess.AddressDao;
-import com.example.proje.dataAccess.CityDao;
+import com.example.proje.repository.AddressRepository;
+import com.example.proje.repository.CityRepository;
 import com.example.proje.model.entity.City;
 import com.example.proje.model.dtos.cityDistrik.CityDistrikDto;
 import com.example.proje.model.dtos.cityDistrik.CityDto;
@@ -16,17 +15,17 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class CityManager implements CityService {
+public class CityService {
 
     @Autowired
-    private CityDao cityDao;
+    private CityRepository cityRepository;
 
     @Autowired
-    private AddressDao addressDao;
+    private AddressRepository addressDao;
 
     private CityDto convertEntityToDto(City city) {
         CityDto newCityDto = new CityDto();
-        newCityDto.setName(cityDao.findCityName());
+        newCityDto.setName(cityRepository.findCityName());
         return newCityDto;
     }
 
@@ -38,17 +37,15 @@ public class CityManager implements CityService {
     }
 
 
-    @Override
     public DataResult<List<CityDto>> findCityName() {
-        return new SuccessDataResult<List<CityDto>>(cityDao.findAll()
+        return new SuccessDataResult<List<CityDto>>(cityRepository.findAll()
                 .stream()
                 .map(this::convertEntityToDto)
                 .collect(Collectors.toList()), "Bilgiler listelendi.");
     }
 
-    @Override
     public DataResult<List<CityDistrikDto>> findCityAndDistrict() {
-        return new SuccessDataResult<List<CityDistrikDto>>(cityDao.findAll()
+        return new SuccessDataResult<List<CityDistrikDto>>(cityRepository.findAll()
                 .stream()
                 .map(this::convertEntityToDtoCityDistrict)
                 .collect(Collectors.toList()), "Bilgiler listelendi.");

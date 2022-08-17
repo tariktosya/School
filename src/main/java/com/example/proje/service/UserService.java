@@ -1,4 +1,4 @@
-package com.example.proje.business.concretes;
+package com.example.proje.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.proje.business.abstracts.UserService;
-import com.example.proje.dataAccess.UserDao;
+import com.example.proje.repository.UserRepository;
 import com.example.proje.model.entity.User;
 import com.example.proje.model.request.user.UserAddDto;
 import com.example.proje.model.request.user.UserChangePasswordDto;
@@ -31,10 +30,10 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class UserManager implements UserService {
+public class UserService {
 
     @Autowired
-    UserDao userDao;
+    UserRepository userRepository;
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -49,26 +48,26 @@ public class UserManager implements UserService {
 
     private EntityDtoConverter<UserUpdateDto, User> userUpdateRequestDtoToUserConverter = new EntityDtoConverter(User.class);
 
-    @Override
+
     public DataResult<List<UserListDto>> getAllUser() {
         try {
-            List<UserListDto> userListResponseDtos = userDao.findByUserListDto();
+            List<UserListDto> userListResponseDtos = userRepository.findByUserListDto();
             return new SuccessDataResult<List<UserListDto>>(userListResponseDtos);
         } catch (Exception ex) {
             return new ErrorDataResult<List<UserListDto>>("Bilinmeyen Bir Hata Oluştu");
         }
     }
 
-    @Override
+
     public Result singup(UserAddDto userAddRequestDto) {
         try {
-            if (userDao.existsByEmail(userAddRequestDto.getEmail())) {
+            if (userRepository.existsByEmail(userAddRequestDto.getEmail())) {
                 return new ErrorResult("Bu Email Kullanılıyor");
             } else {
                 User newUser = userAddRequestDtoToUserConverter.convert(userAddRequestDto);
                 newUser.setPassword(passwordEncoder.encode("123456789"));
                 newUser.setIsPasswordChanged(true);
-                userDao.save(newUser);
+                userRepository.save(newUser);
                 return new SuccessResult();
             }
         } catch (Exception ex) {
@@ -76,11 +75,11 @@ public class UserManager implements UserService {
         }
     }
 
-    @Override
+
     public DataResult<UserLoginResponseDto> login(UserLoginRequestDto userLoginRequestDto) {
 
         try {
-            User user = userDao.findByEmail(userLoginRequestDto.getEmail());
+            User user = userRepository.findByEmail(userLoginRequestDto.getEmail());
             if (Objects.isNull(user)) {
                 return new ErrorDataResult<UserLoginResponseDto>("Kullanıcı Bulunamadı");
             }
@@ -92,7 +91,7 @@ public class UserManager implements UserService {
             }
 
             String jwt = jwtUtils.generateJwtToken(user);
-            UserListDto userListResponseDto = userDao.findByEmailToUserListDto(userLoginRequestDto.getEmail());
+            UserListDto userListResponseDto = userRepository.findByEmailToUserListDto(userLoginRequestDto.getEmail());
 
             UserLoginResponseDto userLoginResponseDto = new UserLoginResponseDto(
                     userListResponseDto.getUserId(),
@@ -110,10 +109,10 @@ public class UserManager implements UserService {
         }
     }
 
-    @Override
+
     public Result changePassword(UserChangePasswordDto userChangePasswordRequestDto) {
         try {
-            User user = userDao.findByEmail(userChangePasswordRequestDto.getEmail());
+            User user = userRepository.findByEmail(userChangePasswordRequestDto.getEmail());
 
             if (Objects.isNull(user)) {
                 return new ErrorResult("Kullanıcı Bulunamadı");
@@ -122,36 +121,36 @@ public class UserManager implements UserService {
             }
             user.setPassword(passwordEncoder.encode(userChangePasswordRequestDto.getPassword()));
             user.setIsPasswordChanged(false);
-            userDao.save(user);
+            userRepository.save(user);
             return new SuccessResult();
         } catch (Exception ex) {
             return new ErrorResult("Bilinmeyen Bir Hata Oluştu");
         }
     }
 
-    @Override
+
     public Result deleteUser(Integer userId) {
         try {
-            User user = userDao.findByUserId(userId);
+            User user = userRepository.findByUserId(userId);
             if (Objects.isNull(user)) {
                 return new ErrorResult("Kullanıcı Bulunamadı");
             }
-            userDao.deleteById(userId);
+            userRepository.deleteById(userId);
             return new SuccessResult("Kullanıcı Silindi");
         } catch (Exception ex) {
             return new ErrorResult("Bilinmeyen Bir Hata Oluştu");
         }
     }
 
-    @Override
+
     public Result updateUser(Integer userId, UserUpdateDto userUpdateRequestDto) {
         try {
-            User oldUser = userDao.findByUserId(userId);
+            User oldUser = userRepository.findByUserId(userId);
 
             if (Objects.isNull(oldUser)) {
                 return new ErrorResult("Kullanıcı Bulunamadı");
             }
-            User findUser = userDao.findByEmail(userUpdateRequestDto.getEmail());
+            User findUser = userRepository.findByEmail(userUpdateRequestDto.getEmail());
 
             if (!Objects.isNull(findUser)) {
                 if (findUser.getUserId() != userId) {
@@ -162,7 +161,7 @@ public class UserManager implements UserService {
             updateUser.setUserId(userId);
             updateUser.setPassword(oldUser.getPassword());
             updateUser.setIsPasswordChanged(oldUser.getIsPasswordChanged());
-            userDao.save(updateUser);
+            userRepository.save(updateUser);
             return new SuccessResult();
         } catch (Exception ex) {
             return new ErrorResult("Bilinmeyen Bir Hata Oluştu");

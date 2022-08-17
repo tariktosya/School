@@ -1,4 +1,4 @@
-package com.example.proje.dataAccess;
+package com.example.proje.repository;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface LessonDao extends JpaRepository<Lesson, Integer> {
+public interface LessonRepository extends JpaRepository<Lesson, Integer> {
 
     List<Lesson> getByLessonNameContains(String lessonName);
 

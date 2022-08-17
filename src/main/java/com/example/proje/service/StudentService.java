@@ -1,4 +1,4 @@
-package com.example.proje.business.concretes;
+package com.example.proje.service;
 
 import com.example.proje.model.dtos.student.StudentGetWithLessonDto;
 import com.example.proje.utilities.converters.EntityDtoConverter;
@@ -9,8 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.example.proje.business.abstracts.StudentService;
-import com.example.proje.dataAccess.IdentificationNoEmailDao;
+import com.example.proje.repository.IdentificationNoEmailRepository;
 import com.example.proje.model.dtos.student.StudentGetDto;
 import com.example.proje.utilities.excel.StudentListExcelHelper;
 import com.example.proje.utilities.pdf.StudentListPdfHelper;
@@ -20,8 +19,8 @@ import com.example.proje.utilities.results.ErrorResult;
 import com.example.proje.utilities.results.Result;
 import com.example.proje.utilities.results.SuccessDataResult;
 import com.example.proje.utilities.results.SuccessResult;
-import com.example.proje.dataAccess.StudentDao;
-import com.example.proje.dataAccess.LessonDao;
+import com.example.proje.repository.StudentRepository;
+import com.example.proje.repository.LessonRepository;
 import com.example.proje.model.entity.Lesson;
 import com.example.proje.model.entity.Student;
 import com.example.proje.model.dtos.student.StudentDto;
@@ -33,16 +32,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class StudentManager implements StudentService {
+public class StudentService  {
 
     @Autowired
-    private StudentDao studentDao;
+    private StudentRepository studentRepository;
 
     @Autowired
-    private IdentificationNoEmailDao identificationNoEmailDao;
+    private IdentificationNoEmailRepository identificationNoEmailRepository;
 
     @Autowired
-    private LessonDao lessonDao;
+    private LessonRepository lessonRepository;
 
 
     private StudentGetDto convertEntityToDto(Student student) {
@@ -68,14 +67,14 @@ public class StudentManager implements StudentService {
         news.setIdentificationNo(student.getIdentificationNo());
         news.setRegistrationYear(student.getRegistrationYear());
 
-        news.setLessonName(lessonDao.getByStudentIdLessonName(studentDao.getByStudentLessons(student.getStudentId())));
-        news.setSectionName(lessonDao.getByStudentIdSectionName(studentDao.getByStudentLessons(student.getStudentId())));
+        news.setLessonName(lessonRepository.getByStudentIdLessonName(studentRepository.getByStudentLessons(student.getStudentId())));
+        news.setSectionName(lessonRepository.getByStudentIdSectionName(studentRepository.getByStudentLessons(student.getStudentId())));
         return news;
     }
 
-    @Override
+
     public DataResult<List<StudentGetWithLessonDto>> getByStudentLessons() {
-        return new SuccessDataResult<List<StudentGetWithLessonDto>>(studentDao.findAll()
+        return new SuccessDataResult<List<StudentGetWithLessonDto>>(studentRepository.findAll()
                 .stream()
                 .map(this::convertStudentLessonDto)
                 .collect(Collectors.toList()), "Öğrenci Bilgileri Dersler ile listelendi.");
@@ -97,32 +96,32 @@ public class StudentManager implements StudentService {
 
     private EntityDtoConverter<StudentGetDto, Student> studentAddDtoToStudentGetDtoConverter = new EntityDtoConverter(Student.class);
 
-    @Override
+
     public DataResult<List<StudentGetDto>> getAllStudent() {
-        return new SuccessDataResult<List<StudentGetDto>>(studentDao.findAll()
+        return new SuccessDataResult<List<StudentGetDto>>(studentRepository.findAll()
                 .stream()
                 .map(this::convertEntityToDto)
                 .collect(Collectors.toList()), "Öğrenci Bilgileri listelendi.");
         //return new SuccessDataResult<List<StudentGetDto>>(studentDao.getAllStudentGetDto());
     }
 
-    @Override
+
     public DataResult<List<StudentGetDto>> getAllPage(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of((pageNo - 1), pageSize);
 
-        if (studentDao.findAll(pageable).getContent().size() == 0) {
+        if (studentRepository.findAll(pageable).getContent().size() == 0) {
             return new ErrorDataResult<List<StudentGetDto>>("Kullanıcı bulunamadı.");
         } else {
-            return new SuccessDataResult<List<StudentGetDto>>(studentDao.findAll(pageable).getContent()
+            return new SuccessDataResult<List<StudentGetDto>>(studentRepository.findAll(pageable).getContent()
                     .stream()
                     .map(this::convertEntityToDto)
                     .collect(Collectors.toList()), "Bilgiler sayfa numarası ve sırasına göre getiriliyor.");
         }
     }
 
-    @Override
+
     public Result addStudent(StudentDto studentDto) {
-        if (identificationNoEmailDao.existsByIdentificationNo(studentDto.getIdentificationNo()) || identificationNoEmailDao.existsByEmail(studentDto.getEmail())) {
+        if (identificationNoEmailRepository.existsByIdentificationNo(studentDto.getIdentificationNo()) || identificationNoEmailRepository.existsByEmail(studentDto.getEmail())) {
             return new ErrorResult("Kişinin e-mail veya TC kimlik numarasını tekrardan kontrol ediniz. Kişi listeye eklenemedi.");
         } else {
             Student newStudent = new Student();
@@ -131,47 +130,47 @@ public class StudentManager implements StudentService {
             newStudent.setIdentificationNo(studentDto.getIdentificationNo());
             newStudent.setPassword(studentDto.getPassword());
 
-            List<Lesson> lessonss = lessonDao.getAllByLessonIdInTarik(studentDto.getLessonId());
+            List<Lesson> lessonss = lessonRepository.getAllByLessonIdInTarik(studentDto.getLessonId());
             newStudent.setLessons(lessonss);
             //System.out.println(studentDto.getLessonId()+"\n");
-            studentDao.save(newStudent);
+            studentRepository.save(newStudent);
             return new SuccessResult("Öğrenci listeye eklendi.");
         }
     }
 
-    @Override
+
     public Result deleteStudent(int id) {
-        if (studentDao.existsById(id)) {
-            studentDao.deleteById(id);
+        if (studentRepository.existsById(id)) {
+            studentRepository.deleteById(id);
             return new SuccessResult("Öğrenci listeden silindi.");
         } else {
             return new ErrorResult(id + " id numarasına ait öğrenci bulunamadı.");
         }
     }
 
-    @Override
+
     public Result updatePassword(int id, String password) {
-        if (studentDao.existsById(id)) {
-            Student newStudent = studentDao.findById(id);
+        if (studentRepository.existsById(id)) {
+            Student newStudent = studentRepository.findById(id);
             newStudent.setPassword(password);
-            studentDao.save(newStudent);
+            studentRepository.save(newStudent);
             return new SuccessResult("Öğrencinin şifresi güncellendi.");
         } else {
             return new ErrorResult(id + " id numarasına ait bir öğrenci bulunamadı.");
         }
     }
 
-    @Override
+
     public DataResult<List<Student>> getByIdentificationNoContains(String identificationNo) {
-        if (studentDao.existsByIdentificationNoContains(identificationNo)) {
-            return new SuccessDataResult<List<Student>>(studentDao.getByIdentificationNoContains(identificationNo), "Data listelendi.");
+        if (studentRepository.existsByIdentificationNoContains(identificationNo)) {
+            return new SuccessDataResult<List<Student>>(studentRepository.getByIdentificationNoContains(identificationNo), "Data listelendi.");
         } else {
             return new ErrorDataResult<List<Student>>("Kullanıcı bulunamadı.");
         }
     }
 
 
-    @Override
+
     public Result exportToExcelStudent(HttpServletResponse response) {
         try {
             String fileName = "Student-list";
@@ -180,7 +179,7 @@ public class StudentManager implements StudentService {
             response.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".xlsx");
 
-            StudentListExcelHelper StudentListExcelHelper = new StudentListExcelHelper(studentDao.findAll(), lessonDao.findAll());
+            StudentListExcelHelper StudentListExcelHelper = new StudentListExcelHelper(studentRepository.findAll(), lessonRepository.findAll());
             StudentListExcelHelper.export(response);
             return new SuccessResult(getAllStudent().toString());
         } catch (Exception ex) {
@@ -188,7 +187,7 @@ public class StudentManager implements StudentService {
         }
     }
 
-    @Override
+
     public Result exportToPdfStudent(HttpServletResponse response) {
         try {
             /*LessonManager lessonManager = new LessonManager();*/
@@ -198,7 +197,7 @@ public class StudentManager implements StudentService {
             response.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".pdf");
 
-            StudentListPdfHelper studentListPdfHelper = new StudentListPdfHelper(studentDao.findAll(), lessonDao.findAll());
+            StudentListPdfHelper studentListPdfHelper = new StudentListPdfHelper(studentRepository.findAll(), lessonRepository.findAll());
             studentListPdfHelper.export(response);
             return new SuccessResult(getAllStudent().toString());
         } catch (Exception ex) {

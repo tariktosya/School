@@ -1,11 +1,10 @@
-package com.example.proje.business.concretes;
+package com.example.proje.service;
 
-import com.example.proje.business.abstracts.AddressService;
 import com.example.proje.utilities.results.Result;
 import com.example.proje.utilities.results.SuccessResult;
-import com.example.proje.dataAccess.AddressDao;
-import com.example.proje.dataAccess.CityDao;
-import com.example.proje.dataAccess.StudentDao;
+import com.example.proje.repository.AddressRepository;
+import com.example.proje.repository.CityRepository;
+import com.example.proje.repository.StudentRepository;
 import com.example.proje.model.entity.*;
 import com.example.proje.model.dtos.address.AddressDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +13,16 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class AddressManager implements AddressService {
+public class AddressService {
 
     @Autowired
-    private AddressDao addressDao;
+    private AddressRepository addressRepository;
 
     @Autowired
-    private StudentDao studentDao;
+    private StudentRepository studentRepository;
 
     @Autowired
-    private CityDao cityDao;
+    private CityRepository cityRepository;
 
 
     private AddressDto convertDto(List<City> city, List<Distrik> distrik){
@@ -32,21 +31,21 @@ public class AddressManager implements AddressService {
     }
 
 
-    @Override
+
     public List<String> getByCityNameToCityDistrik(String cityName) {
-        return addressDao.getByCityDistrik(cityName);
+        return addressRepository.getByCityDistrik(cityName);
 
     }
 
-    @Override
+
     public Result addAddress(AddressDto addressDto) {
         Address newAdress = new Address();
         newAdress.setAddressId(addressDto.getAddressId());
         newAdress.setAddressCityName(addressDto.getAddressCityName());
         newAdress.setAddressDistrikName(addressDto.getAddressDistrikName());
         newAdress.setAddressDescription(addressDto.getAddressDescription());
-        newAdress.setStudentId(studentDao.findById(addressDto.getStudentIds()));
-        this.addressDao.save(newAdress);
+        newAdress.setStudentId(studentRepository.findById(addressDto.getStudentIds()));
+        this.addressRepository.save(newAdress);
         return new SuccessResult("Adres eklendi");
     }
 

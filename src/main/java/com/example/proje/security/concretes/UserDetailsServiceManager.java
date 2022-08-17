@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import com.example.proje.dataAccess.UserDao;
+import com.example.proje.repository.UserRepository;
 import com.example.proje.model.entity.User;
 
 @Service
@@ -15,11 +15,11 @@ import com.example.proje.model.entity.User;
 public class UserDetailsServiceManager implements UserDetailsService {
 
     @Autowired
-    UserDao userDao;
+    UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) {
-        User user = userDao.findByEmail(email);
+        User user = userRepository.findByEmail(email);
         return new UserDetailsManager(user);
     }
 }
