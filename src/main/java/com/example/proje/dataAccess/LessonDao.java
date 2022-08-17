@@ -4,7 +4,7 @@ package com.example.proje.dataAccess;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.example.proje.entities.concretes.Lesson;
+import com.example.proje.model.entity.Lesson;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;

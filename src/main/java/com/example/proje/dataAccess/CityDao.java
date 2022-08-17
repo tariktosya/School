@@ -1,6 +1,6 @@
 package com.example.proje.dataAccess;
 
-import com.example.proje.entities.concretes.City;
+import com.example.proje.model.entity.City;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

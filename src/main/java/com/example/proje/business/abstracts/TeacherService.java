@@ -3,11 +3,11 @@ package com.example.proje.business.abstracts;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.example.proje.core.entities.dtos.TeacherGetDto;
-import com.example.proje.core.utilities.results.DataResult;
-import com.example.proje.core.utilities.results.Result;
-import com.example.proje.entities.concretes.Teacher;
-import com.example.proje.entities.dtos.TeacherDto;
+import com.example.proje.model.dtos.teacher.TeacherGetDto;
+import com.example.proje.utilities.results.DataResult;
+import com.example.proje.utilities.results.Result;
+import com.example.proje.model.entity.Teacher;
+import com.example.proje.model.dtos.teacher.TeacherDto;
 
 import java.util.List;
 

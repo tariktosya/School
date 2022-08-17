@@ -1,7 +1,7 @@
 package com.example.proje.business.concretes;
 
-import com.example.proje.core.entities.dtos.StudentGetWithLessonDto;
-import com.example.proje.core.utilities.converters.EntityDtoConverter;
+import com.example.proje.model.dtos.student.StudentGetWithLessonDto;
+import com.example.proje.utilities.converters.EntityDtoConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -10,25 +10,24 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.proje.business.abstracts.StudentService;
-import com.example.proje.core.dataAccess.IdentificationNoEmailDao;
-import com.example.proje.core.entities.dtos.StudentGetDto;
-import com.example.proje.core.utilities.excel.StudentListExcelHelper;
-import com.example.proje.core.utilities.pdf.StudentListPdfHelper;
-import com.example.proje.core.utilities.results.DataResult;
-import com.example.proje.core.utilities.results.ErrorDataResult;
-import com.example.proje.core.utilities.results.ErrorResult;
-import com.example.proje.core.utilities.results.Result;
-import com.example.proje.core.utilities.results.SuccessDataResult;
-import com.example.proje.core.utilities.results.SuccessResult;
+import com.example.proje.dataAccess.IdentificationNoEmailDao;
+import com.example.proje.model.dtos.student.StudentGetDto;
+import com.example.proje.utilities.excel.StudentListExcelHelper;
+import com.example.proje.utilities.pdf.StudentListPdfHelper;
+import com.example.proje.utilities.results.DataResult;
+import com.example.proje.utilities.results.ErrorDataResult;
+import com.example.proje.utilities.results.ErrorResult;
+import com.example.proje.utilities.results.Result;
+import com.example.proje.utilities.results.SuccessDataResult;
+import com.example.proje.utilities.results.SuccessResult;
 import com.example.proje.dataAccess.StudentDao;
 import com.example.proje.dataAccess.LessonDao;
-import com.example.proje.entities.concretes.Lesson;
-import com.example.proje.entities.concretes.Student;
-import com.example.proje.entities.dtos.StudentDto;
+import com.example.proje.model.entity.Lesson;
+import com.example.proje.model.entity.Student;
+import com.example.proje.model.dtos.student.StudentDto;
 
 
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.*;
 
 import java.util.List;
 import java.util.stream.Collectors;

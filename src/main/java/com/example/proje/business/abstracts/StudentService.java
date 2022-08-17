@@ -3,13 +3,12 @@ package com.example.proje.business.abstracts;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.example.proje.core.entities.dtos.StudentGetDto;
-import com.example.proje.core.entities.dtos.StudentGetWithLessonDto;
-import com.example.proje.core.utilities.results.DataResult;
-import com.example.proje.core.utilities.results.Result;
-import com.example.proje.entities.concretes.Student;
-import com.example.proje.entities.dtos.StudentDto;
-import io.swagger.models.auth.In;
+import com.example.proje.model.dtos.student.StudentGetDto;
+import com.example.proje.model.dtos.student.StudentGetWithLessonDto;
+import com.example.proje.utilities.results.DataResult;
+import com.example.proje.utilities.results.Result;
+import com.example.proje.model.entity.Student;
+import com.example.proje.model.dtos.student.StudentDto;
 
 import java.util.List;
 

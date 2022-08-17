@@ -9,11 +9,11 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.proje.business.abstracts.LessonService;
-import com.example.proje.core.entities.dtos.LessonGetDto;
-import com.example.proje.core.utilities.results.DataResult;
-import com.example.proje.core.utilities.results.ErrorDataResult;
-import com.example.proje.entities.concretes.Lesson;
-import com.example.proje.entities.dtos.LessonDto;
+import com.example.proje.model.dtos.lesson.LessonGetDto;
+import com.example.proje.utilities.results.DataResult;
+import com.example.proje.utilities.results.ErrorDataResult;
+import com.example.proje.model.entity.Lesson;
+import com.example.proje.model.dtos.lesson.LessonDto;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,8 +1,7 @@
 package com.example.proje.dataAccess;
 
-import com.example.proje.core.entities.dtos.StudentGetWithLessonDto;
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.example.proje.entities.concretes.Student;
+import com.example.proje.model.entity.Student;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -26,7 +25,7 @@ public interface StudentDao extends JpaRepository<Student, Integer> {
     List<Integer> getByStudentLessons(@Param("studentId") int studentId);
 
 
-    //    @Query("Select New com.example.proje.core.entities.dtos.GetLessonId" +
+    //    @Query("Select New com.example.proje.entities.dtos.lesson.GetLessonId" +
 //            " (l.lessonId) " +
 //            "FROM Student s " +
 //            "Inner join s.lessons as l " +
@@ -40,14 +39,14 @@ public interface StudentDao extends JpaRepository<Student, Integer> {
             nativeQuery = true)
     List<StudentGetWithLessonDto> getByStudentWithLessonDetails();*/
 
-   /* @Query(value = "Select #{#com.example.proje.core.entities.dtos.StudentGetDto}"+
+   /* @Query(value = "Select #{#com.example.proje.entities.dtos.student.StudentGetDto}"+
             "l.lesson_id as lessonId, l.lesson_name as lessonName, l.section_name as sectionName" +
             " From Student s" +
             "inner join s.lessons l", nativeQuery = true)
     List<StudentGetDto> findByStudentGetDto();*/
 
 
-    /*@Query(value = "Select com.example.proje.core.entities.dtos.StudentGetDto"
+    /*@Query(value = "Select com.example.proje.entities.dtos.student.StudentGetDto"
             + "(s.id, s.identificationNo, s.registrationYear, s.email, s.password, s.lessons)"
             + " From Student s", nativeQuery = true)
     List<StudentGetDto> findByStudentGetDto();*/

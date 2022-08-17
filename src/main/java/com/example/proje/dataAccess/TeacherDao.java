@@ -2,7 +2,7 @@ package com.example.proje.dataAccess;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.proje.entities.concretes.Teacher;
+import com.example.proje.model.entity.Teacher;
 
 import java.util.List;
 

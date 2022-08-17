@@ -1,14 +1,13 @@
 package com.example.proje.business.concretes;
 
 import com.example.proje.business.abstracts.AddressService;
-import com.example.proje.core.utilities.results.Result;
-import com.example.proje.core.utilities.results.SuccessResult;
+import com.example.proje.utilities.results.Result;
+import com.example.proje.utilities.results.SuccessResult;
 import com.example.proje.dataAccess.AddressDao;
 import com.example.proje.dataAccess.CityDao;
 import com.example.proje.dataAccess.StudentDao;
-import com.example.proje.entities.concretes.*;
-import com.example.proje.entities.dtos.AddressDto;
-import com.example.proje.entities.dtos.CityDto;
+import com.example.proje.model.entity.*;
+import com.example.proje.model.dtos.address.AddressDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

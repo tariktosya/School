@@ -6,10 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.proje.business.abstracts.UserService;
-import com.example.proje.core.entities.dtos.request.UserAddDto;
-import com.example.proje.core.entities.dtos.request.UserChangePasswordDto;
-import com.example.proje.core.entities.dtos.request.UserLoginRequestDto;
-import com.example.proje.core.entities.dtos.request.UserUpdateDto;
+import com.example.proje.model.request.user.UserAddDto;
+import com.example.proje.model.request.user.UserChangePasswordDto;
+import com.example.proje.model.request.user.UserLoginRequestDto;
+import com.example.proje.model.request.user.UserUpdateDto;
 
 @CrossOrigin
 @RestController

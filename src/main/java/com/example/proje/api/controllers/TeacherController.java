@@ -10,11 +10,11 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.proje.business.abstracts.TeacherService;
-import com.example.proje.core.entities.dtos.TeacherGetDto;
-import com.example.proje.core.utilities.results.DataResult;
-import com.example.proje.core.utilities.results.ErrorDataResult;
-import com.example.proje.entities.concretes.Teacher;
-import com.example.proje.entities.dtos.TeacherDto;
+import com.example.proje.model.dtos.teacher.TeacherGetDto;
+import com.example.proje.utilities.results.DataResult;
+import com.example.proje.utilities.results.ErrorDataResult;
+import com.example.proje.model.entity.Teacher;
+import com.example.proje.model.dtos.teacher.TeacherDto;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;

@@ -2,9 +2,9 @@ package com.example.proje.api.controllers;
 
 import com.example.proje.business.abstracts.AddressService;
 import com.example.proje.business.abstracts.CityService;
-import com.example.proje.core.utilities.results.DataResult;
-import com.example.proje.entities.dtos.AddressDto;
-import com.example.proje.entities.dtos.CityDistrikDto;
+import com.example.proje.utilities.results.DataResult;
+import com.example.proje.model.dtos.address.AddressDto;
+import com.example.proje.model.dtos.cityDistrik.CityDistrikDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
