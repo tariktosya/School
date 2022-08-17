@@ -6,7 +6,7 @@
 - Lombok
 - Spring Security
 - Spring Data JPA
-- Cache
+- Cacheing
 
 -AddressController
 ![Address](https://user-images.githubusercontent.com/76056196/185044951-22451040-c332-4d0b-9698-5628d399d906.PNG)
