@@ -66,7 +66,6 @@ public class AddressController {
 
     @GetMapping
     public Cache fetchFromCache(@RequestParam("id") String id){
-        System.out.println("Geldimn");
         return addressService.fetchFromCache(id);
     }
 
