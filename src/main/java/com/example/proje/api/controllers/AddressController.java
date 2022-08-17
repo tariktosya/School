@@ -7,6 +7,7 @@ import com.example.proje.model.dtos.address.AddressDto;
 import com.example.proje.model.dtos.cityDistrik.CityDistrikDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -27,9 +28,6 @@ public class AddressController {
 
     @Autowired
     private CityService cityService;
-
-    public AddressController() {
-    }
 
     @CachePut("cityDistrik")
     @RequestMapping(value = { "/getCityDistrikCachePut" }, method = RequestMethod.GET)
@@ -64,6 +62,12 @@ public class AddressController {
     public ResponseEntity<?> addAddress(@Valid @RequestBody AddressDto addressDto) throws InterruptedException{
         //Thread.sleep(3000);
         return ResponseEntity.ok(addressService.addAddress(addressDto));
+    }
+
+    @GetMapping
+    public Cache fetchFromCache(@RequestParam("id") String id){
+        System.out.println("Geldimn");
+        return addressService.fetchFromCache(id);
     }
 
 

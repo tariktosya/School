@@ -3,11 +3,12 @@ package com.example.proje.service;
 import com.example.proje.utilities.results.Result;
 import com.example.proje.utilities.results.SuccessResult;
 import com.example.proje.repository.AddressRepository;
-import com.example.proje.repository.CityRepository;
 import com.example.proje.repository.StudentRepository;
 import com.example.proje.model.entity.*;
 import com.example.proje.model.dtos.address.AddressDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,20 +22,26 @@ public class AddressService {
     @Autowired
     private StudentRepository studentRepository;
 
-    @Autowired
-    private CityRepository cityRepository;
 
+    private CacheManager cacheManager;
 
-    private AddressDto convertDto(List<City> city, List<Distrik> distrik){
+    public AddressService(CacheManager cacheManager) {
+        this.cacheManager = cacheManager;
+    }
+
+    public Cache fetchFromCache(String id) { //Access Cache values
+        Cache cityDistrik = this.cacheManager.getCache(id);
+        return cityDistrik;
+    }
+
+    private AddressDto convertDto(List<City> city, List<Distrik> distrik) {
         AddressDto dto = new AddressDto();
         return dto;
     }
 
 
-
     public List<String> getByCityNameToCityDistrik(String cityName) {
         return addressRepository.getByCityDistrik(cityName);
-
     }
 
 
@@ -48,6 +55,7 @@ public class AddressService {
         this.addressRepository.save(newAdress);
         return new SuccessResult("Adres eklendi");
     }
+
 
 //    @Override
 //    public Result getDistrik(StudentDto studentDto) {
