@@ -7,6 +7,7 @@
 - Spring Security
 - Spring Data JPA
 - Cacheing
+- Kafka(Producer-Consumer)
 
 -AddressController
 ![addressController](https://user-images.githubusercontent.com/76056196/185102038-c541ea86-a60b-4840-aefb-f883768b0277.PNG)
