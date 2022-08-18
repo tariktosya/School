@@ -56,7 +56,7 @@ public class LessonService {
 
     public DataResult<List<Lesson>> getByLessonNameContains(String lessonName) {
         if (lessonRepository.existsBySectionName(lessonName)) { //hata
-            return new ErrorDataResult<List<Lesson>>("Kullanıcı bulunamadı.");
+            return new ErrorDataResult<List<Lesson>>("Ders bulunamadı.");
         } else {
             return new SuccessDataResult<List<Lesson>>(lessonRepository.getByLessonNameContains(lessonName), "Data listelendi.");
         }

@@ -1,5 +1,6 @@
 package com.example.proje.api.controllers;
 
+import com.example.proje.model.entity.City;
 import com.example.proje.service.AddressService;
 import com.example.proje.service.CityService;
 import com.example.proje.utilities.results.DataResult;
@@ -30,11 +31,12 @@ public class AddressController {
     private CityService cityService;
 
     @CachePut("cityDistrik")
-    @RequestMapping(value = { "/getCityDistrikCachePut" }, method = RequestMethod.GET)
+    @GetMapping(value = { "/getCityDistrikCachePut" })
     public DataResult<List<CityDistrikDto>> getWithCachePut() throws InterruptedException {
-        Thread.sleep(3000);
+        Thread.sleep(2000);
         return cityService.findCityAndDistrict();
     }
+
     @Cacheable("cityDistrik")
     @GetMapping(value = { "/getCityDistrikCacheable" })
     public DataResult<List<CityDistrikDto>> getWithCacheable() throws InterruptedException {
@@ -42,7 +44,7 @@ public class AddressController {
         return cityService.findCityAndDistrict();
     }
 
-    @CacheEvict("cityDistrik")
+    @CacheEvict(value ="cityDistrik",allEntries=true)
     @GetMapping("/cleanCachewithCacheEvitch")
     public String cleanCachewithCacheEvitch() throws InterruptedException{
         //Thread.sleep(2000);
@@ -64,7 +66,7 @@ public class AddressController {
         return ResponseEntity.ok(addressService.addAddress(addressDto));
     }
 
-    @GetMapping
+    @GetMapping("fetchFromCache")
     public Cache fetchFromCache(@RequestParam("id") String id){
         return addressService.fetchFromCache(id);
     }

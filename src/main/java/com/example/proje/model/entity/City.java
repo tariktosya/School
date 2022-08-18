@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Data
@@ -13,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class City {
+
     @Id
     @Column(name = "city_id")
     private int cityId;
@@ -20,6 +22,6 @@ public class City {
     @Column(name = "city_name")
     private String cityName;
 
-    @OneToMany(mappedBy="city")
+    @OneToMany(mappedBy = "city")
     private Set<Distrik> distrik;
 }

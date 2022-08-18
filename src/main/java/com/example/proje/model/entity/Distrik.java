@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Entity
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Distrik {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "distrik_id")
@@ -21,6 +23,6 @@ public class Distrik {
     private String distrikName;
 
     @ManyToOne
-    @JoinColumn(name="city_id", nullable=false)
+    @JoinColumn(name = "city_id", nullable = false)
     private City city;
 }
