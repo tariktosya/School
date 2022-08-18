@@ -9,7 +9,7 @@
 - Cacheing
 
 -AddressController
-![Address](https://user-images.githubusercontent.com/76056196/185044951-22451040-c332-4d0b-9698-5628d399d906.PNG)
+![addressController](https://user-images.githubusercontent.com/76056196/185102038-c541ea86-a60b-4840-aefb-f883768b0277.PNG)
 
 -StudentController
 ![studentController](https://user-images.githubusercontent.com/76056196/185044967-090f6a07-5f2f-4876-8bf7-daf58e6fc7af.PNG)
