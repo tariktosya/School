@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Value;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @Slf4j
@@ -22,15 +25,15 @@ public class KafkaController {
 
 
     @GetMapping(value = "/send")
-    public void send(){
-        topicService.send("Mesajımı almistir oooo Almasa da olur ooo");
-        topicService.send("ikinci mesaji atiyorum ona gore");
-        topicService.send("ucuncu mesaj da gittiyse dagilalim");
+    public void send() {
+        topicService.send();
+//        List<String> stringList = new ArrayList<String>();
+//        stringList.add("Mesajimi almistir oooo Almasa da olur ooo");
+//        stringList.add("ikinci mesaji atiyorum ona gore");
+//        stringList.add("ucuncu mesaj da gittiyse dagilalim");
+//        topicService.send("Mesajimi almistir oooo Almasa da olur ooo");
+//        topicService.send("ikinci mesaji atiyorum ona gore");
+//        topicService.send("ucuncu mesaj da gittiyse dagilalim");
+//    }
     }
-
-
-
-
-
-
 }

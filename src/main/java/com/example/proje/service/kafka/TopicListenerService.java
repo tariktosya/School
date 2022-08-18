@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -17,12 +19,12 @@ public class TopicListenerService {
 
 
     @KafkaListener(topics = "${topic.name.consumer}", groupId = "group_id")
-    public void consume(ConsumerRecord<String, String> payload){
+    public void consume(ConsumerRecord<String, String> payload) {
         log.info("Tópico: {}", topicName);
         log.info("key: {}", payload.key());
         log.info("Headers: {}", payload.headers());
         log.info("Partion: {}", payload.partition());
         log.info("Order: {}", payload.value());
-        System.out.println("************************************** "+ payload.value());
+        System.out.println("******************** " + payload.value());
     }
 }

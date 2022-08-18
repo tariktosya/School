@@ -16,7 +16,8 @@ public class TopicService {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    public void send(String message){
+    public void send(){
+        String message = "Mesajimi almistir oooo Almasa da olur ooo";
         log.info("Payload enviado: {}",  message);
         kafkaTemplate.send(topicName, message);
     }
