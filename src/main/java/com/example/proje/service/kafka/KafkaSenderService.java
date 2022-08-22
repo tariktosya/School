@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -25,18 +26,20 @@ public class KafkaSenderService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaSenderService.class);
 
-    @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
-
     @Value("${topic.name.producer}")
     private String topicName;
 
+
+    @Autowired
+    private KafkaTemplate<String, List<User>> kafkaTemplate;
+
     public void send(List<User> user) {
-        Map<String, Object> headers = new HashMap<>();
+        kafkaTemplate.send(topicName, UUID.randomUUID().toString(),user);
+        /*Map<String, Object> headers = new HashMap<>();
         headers.put(KafkaHeaders.TOPIC, topicName);
         kafkaTemplate.send(new GenericMessage<List<User>>(user, headers));
         // kafkaTemplate.send(topicName, "some string value")
-        //LOGGER.info("Data - " + city.toString() + " sent to Kafka Topic - " + topicName);
+        //LOGGER.info("Data - " + city.toString() + " sent to Kafka Topic - " + topicName);*/
     }
 
 }

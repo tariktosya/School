@@ -1,9 +1,6 @@
 package com.example.proje.api.controllers;
 
-import com.example.proje.model.entity.City;
 import com.example.proje.model.entity.User;
-import com.example.proje.model.response.user.UserListDto;
-import com.example.proje.service.CityService;
 import com.example.proje.service.UserService;
 import com.example.proje.service.kafka.KafkaSenderService;
 import lombok.RequiredArgsConstructor;
@@ -25,17 +22,17 @@ import java.util.UUID;
 public class KafkaController {
 
     @Autowired
-    private UserService userService;
+    private KafkaSenderService kafkaSenderService;
 
     @Autowired
-    private KafkaTemplate<String, List<User>> kafkaTemplate;
+    private UserService userService;
 
     @Value("${topic.name.producer}")
     private String topicName;
 
     @GetMapping(value = "/send")
-    public void send() throws InterruptedException {
-        kafkaTemplate.send(topicName, UUID.randomUUID().toString(), userService.getAllUserByDefault());
+    public void send() {
+        kafkaSenderService.send(userService.getAllUserByDefault());
         // kafkaSenderService.send(cityService.getAllCity());
 //        List<String> stringList = new ArrayList<String>();
 //        stringList.add("Mesajimi almistir oooo Almasa da olur ooo");
