@@ -19,8 +19,10 @@ public class TopicListenerService {
     private String topicName;
 
     @KafkaListener(topics = "${topic.name.consumer}", groupId = "${spring.kafka.consumer.group-id}", containerFactory = "userListener")
-    void listener(List<User> data) {
-        data.forEach(o-> System.out.println(o.getFirstName()+":"+o.getLastName()+":"+o.getEmail()));
+    void listener(List<User> data, ConsumerRecord<String, List<User>> payload) {
+        payload.value().forEach(o -> System.out.println("UserId : " + o.getUserId() + "\nPhone Number : " + o.getPhoneNumber() + "\nEmail : "
+                + o.getEmail() + "\n**********************\n" + "Headers :" + payload.headers() + "\nKey : " + payload.key() + "\nPartition : " + payload.partition() + "\n*******************\n"));
+
     }
 
    /* @KafkaListener(topics = "${topic.name.consumer}", groupId = "group_id")

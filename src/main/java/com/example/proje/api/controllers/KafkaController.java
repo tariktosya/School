@@ -23,11 +23,6 @@ import java.util.UUID;
 @Slf4j
 @RequestMapping(value = "/kafka")
 public class KafkaController {
-    @Autowired
-    private final KafkaSenderService kafkaSenderService;
-
-    @Autowired
-    private CityService cityService;
 
     @Autowired
     private UserService userService;
