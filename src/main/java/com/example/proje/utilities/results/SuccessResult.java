@@ -1,6 +1,9 @@
 package com.example.proje.utilities.results;
 
-public class SuccessResult extends Result {
+import java.io.Serializable;
+
+public class SuccessResult extends Result implements Serializable {
+    private static final long serialVersionUID = 7156526077883281623L;
     public SuccessResult() {
         super(true);
     }

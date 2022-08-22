@@ -23,5 +23,5 @@ public class City implements Serializable{
     private String cityName;
 
     @OneToMany(mappedBy = "city")
-    private Set<Distrik> distrik;
+    private Set<District> distrik;
 }

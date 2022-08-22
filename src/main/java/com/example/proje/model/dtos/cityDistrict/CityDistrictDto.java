@@ -1,4 +1,4 @@
-package com.example.proje.model.dtos.cityDistrik;
+package com.example.proje.model.dtos.cityDistrict;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class CityDistrikDto implements Serializable {
+public class CityDistrictDto implements Serializable {
     private static final long serialVersionUID = 7156526077883281623L;
     private String cityName;
     private List<String> districtName;

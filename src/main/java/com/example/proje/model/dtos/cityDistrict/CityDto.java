@@ -1,4 +1,4 @@
-package com.example.proje.model.dtos.cityDistrik;
+package com.example.proje.model.dtos.cityDistrict;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class DistrikDto {
-    private List<String> distrikName;
+public class CityDto {
+    private List<String> name;
 }

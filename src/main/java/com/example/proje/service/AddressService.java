@@ -33,7 +33,7 @@ public class AddressService {
         return cityDistrik;
     }
 
-    private AddressDto convertDto(List<City> city, List<Distrik> distrik) {
+    private AddressDto convertDto(List<City> city, List<District> distrik) {
         AddressDto dto = new AddressDto();
         return dto;
     }

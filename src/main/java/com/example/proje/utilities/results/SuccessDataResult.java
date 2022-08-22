@@ -1,6 +1,10 @@
 package com.example.proje.utilities.results;
 
-public class SuccessDataResult<T> extends DataResult<T> {
+import java.io.Serializable;
+
+public class SuccessDataResult<T> extends DataResult<T> implements Serializable {
+
+    private static final long serialVersionUID = 7156526077883281623L;
 
     public SuccessDataResult(T data, String message) {
         super(data, true, message);
