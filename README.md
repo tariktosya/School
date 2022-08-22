@@ -9,6 +9,9 @@
 - Cacheing
 - Kafka(Producer-Consumer)
 
+-Controller
+![Ekran Alıntısı](https://user-images.githubusercontent.com/76056196/185902309-797e92e4-38d9-42a8-bbc3-291179c2d745.PNG)
+
 -AddressController
 ![addressController](https://user-images.githubusercontent.com/76056196/185102038-c541ea86-a60b-4840-aefb-f883768b0277.PNG)
 
