@@ -6,11 +6,14 @@
 - Lombok
 - Spring Security
 - Spring Data JPA
-- Cacheing
+- Cacheing(Redis)
 - Kafka(Producer-Consumer)
 
+-Controller
+![Ekran Alıntısı](https://user-images.githubusercontent.com/76056196/185902309-797e92e4-38d9-42a8-bbc3-291179c2d745.PNG)
+
 -AddressController
-![addressController](https://user-images.githubusercontent.com/76056196/185102038-c541ea86-a60b-4840-aefb-f883768b0277.PNG)
+![address](https://user-images.githubusercontent.com/76056196/185902487-82a29f30-be9a-4422-a95d-64442ce17b34.PNG)
 
 -StudentController
 ![studentController](https://user-images.githubusercontent.com/76056196/185044967-090f6a07-5f2f-4876-8bf7-daf58e6fc7af.PNG)
