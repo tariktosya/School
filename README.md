@@ -6,7 +6,7 @@
 - Lombok
 - Spring Security
 - Spring Data JPA
-- Cacheing
+- Cacheing(Redis)
 - Kafka(Producer-Consumer)
 
 -Controller
