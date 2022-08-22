@@ -22,7 +22,6 @@ public class AddressService {
     @Autowired
     private StudentRepository studentRepository;
 
-
     private CacheManager cacheManager;
 
     public AddressService(CacheManager cacheManager) {
@@ -39,11 +38,9 @@ public class AddressService {
         return dto;
     }
 
-
     public List<String> getByCityNameToCityDistrik(String cityName) {
         return addressRepository.getByCityDistrik(cityName);
     }
-
 
     public Result addAddress(AddressDto addressDto) {
         Address newAdress = new Address();
@@ -55,7 +52,6 @@ public class AddressService {
         this.addressRepository.save(newAdress);
         return new SuccessResult("Adres eklendi");
     }
-
 
 //    @Override
 //    public Result getDistrik(StudentDto studentDto) {

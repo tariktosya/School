@@ -1,19 +1,19 @@
 package com.example.proje.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "city")
 @AllArgsConstructor
 @NoArgsConstructor
-public class City {
+public class City implements Serializable{
+    private static final long serialVersionUID = 7156526077883281623L;
 
     @Id
     @Column(name = "city_id")

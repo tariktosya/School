@@ -58,6 +58,10 @@ public class UserService {
         }
     }
 
+    public List<User> getAllUserByDefault() {
+        return userRepository.findAll();
+    }
+
 
     public Result singup(UserAddDto userAddRequestDto) {
         try {
